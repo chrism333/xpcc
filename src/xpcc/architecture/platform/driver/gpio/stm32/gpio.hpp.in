@@ -171,16 +171,26 @@ private:
 	/// Alternate Function register mask.
 	static constexpr uint32_t af_mask  = 0xf << af_offset;
 	/// ExternalInterruptIRQ
-%% if pin|int in range(0,5)
-	%% if target is stm32f3 and pin|int == 2
-	static constexpr IRQn_Type ExternalInterruptIRQ = EXTI2_TSC_IRQn;
-	%% else
-	static constexpr IRQn_Type ExternalInterruptIRQ = EXTI{{pin}}_IRQn;
+%% if target is stm32f0
+	%% if pin|int in range(0,2)
+	static constexpr IRQn_Type ExternalInterruptIRQ = EXTI0_1_IRQn;
+	%% elif pin|int in range(2,4)
+	static constexpr IRQn_Type ExternalInterruptIRQ = EXTI2_3_IRQn;
+	%% elif pin|int in range(4,16)
+	static constexpr IRQn_Type ExternalInterruptIRQ = EXTI4_15_IRQn;
 	%% endif
-%% elif pin|int in range(5,10)
+%% else
+	%% if pin|int in range(0,5)
+		%% if target is stm32f3 and pin|int == 2
+	static constexpr IRQn_Type ExternalInterruptIRQ = EXTI2_TSC_IRQn;
+		%% else
+	static constexpr IRQn_Type ExternalInterruptIRQ = EXTI{{pin}}_IRQn;
+		%% endif
+	%% elif pin|int in range(5,10)
 	static constexpr IRQn_Type ExternalInterruptIRQ = EXTI9_5_IRQn;
-%% elif pin|int in range(10,16)
+	%% elif pin|int in range(10,16)
 	static constexpr IRQn_Type ExternalInterruptIRQ = EXTI15_10_IRQn;
+	%% endif
 %% endif
 
 	/// TODO: Document
@@ -289,7 +299,7 @@ public:
 		// Enable AFIO
 		RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;
 		AFIO->EXTICR[index] = (AFIO->EXTICR[index] & ~syscfg_mask) | syscfg_value;
-%% elif target is stm32f2 or target is stm32f3 or target is stm32f4
+%% elif target is stm32f0 or target is stm32f2 or target is stm32f3 or target is stm32f4
 		// Enable SYSCFG
 		RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
 		SYSCFG->EXTICR[index] = (SYSCFG->EXTICR[index] & ~syscfg_mask) | syscfg_value;
