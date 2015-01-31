@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE rca SYSTEM "../devicefile.dtd">
+<rca version="1.0">
+  <device platform="stm32" family="f0" name="072" pin_id="r" size_id="b">
+    <flash>131072</flash>
+    <ram>16384</ram>
+    <linkerscript>stm32f0xx_b.ld</linkerscript>
+    <core>cortex-m0</core>
+    <pin-count>64</pin-count>
+    <header>stm32f072xb.h</header>
+    <define>STM32F0XX</define>
+    <driver type="core" name="cortex">
+      <parameter name="allocator">newlib</parameter>
+    </driver>
+<!--
+    <driver type="adc" name="stm32"/>
+    <driver device-name="051" type="dac" name="stm32" instances="1"/>
+    <driver type="i2c" name="stm32" instances="1"/>
+    <driver device-name="051" device-size-id="8" device-pin-id="c|r" type="i2c" name="stm32" instances="2"/>
+    <driver type="spi" name="stm32" instances="1"/>
+    <driver device-name="051" device-size-id="8" device-pin-id="c|r" type="spi" name="stm32" instances="2"/>
+    <driver type="spi" name="stm32_uart" instances="1"/>
+    <driver device-name="051" device-size-id="6|8" type="spi" name="stm32_uart" instances="2"/>
+    <driver type="timer" name="stm32" instances="1,2,3,14,16,17"/>
+    <driver device-name="051" type="timer" name="stm32" instances="15"/>
+    <driver type="uart" name="stm32" instances="1"/>
+    <driver device-name="051" device-size-id="6|8" type="uart" name="stm32" instances="2"/>
+-->
+    <driver type="gpio" name="stm32">
+      <gpio port="A" id="0"></gpio>
+      <gpio port="C" id="6"></gpio>
+      <gpio port="C" id="7"></gpio>
+      <gpio port="C" id="8"></gpio>
+      <gpio port="C" id="9"></gpio>
+    </driver>
+  </device>
+</rca>
